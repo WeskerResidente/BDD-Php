@@ -58,3 +58,113 @@ FROM
   departement
 WHERE
   departement_code > 97;
+8-
+SELECT ville_nom, ville_surface, departement_nom
+FROM villes_france_free
+FULL JOIN departement ON ville_departement = departement.departement_code
+ORDER BY ville_surface DESC
+LIMIT 5
+
+EXO 3
+
+
+CREATE TABLE marque (
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  nom VARCHAR(255)
+);
+
+INSERT INTO marque (nom)
+VALUES
+('Bosch'),
+('Brandt'),
+('Gorenje'),
+('Indesit'),
+('Miele'),
+('Thomson');
+
+CREATE TABLE categorie (
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  type VARCHAR(255)
+);
+
+INSERT INTO categorie (type)
+VALUES
+('Lave-vaisselle'),
+('Lave-Linge');
+
+CREATE TABLE machines (
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  marque_id INT(11),
+  categorie_id INT(11),
+  prix INT(11),
+  modele VARCHAR(255)
+);
+
+INSERT INTO machines (marque_id, categorie_id, prix, modele)
+VALUES
+(1, 1, 699, 'WOP1154A'),
+(2, 1, 599, 'WTC1256H'),
+(2, 1, 699, 'WTC1356L'),
+(3, 2, 389, 'AD65L425F'),
+(4, 2, 359, 'XP89X333G'),
+(4, 2, 409, 'XP92x333L'),
+(5, 2, 1099, 'ME20H252V'),
+(6, 2, 549, 'AS19Z201S'),
+(6, 2, 699, 'AS19Z301S');
+
+3-
+
+UPDATE Darty_elec
+SET prix = prix - 50
+WHERE prix > 600
+
+EXO 4
+
+INSERT INTO listes (nom, metier)
+VALUES
+('Leia', 'Brodeur de nuage'),
+('Sherlock', 'Dresseur de limace'),
+('Lara', 'Brodeur de nuage'),
+('Arya', 'Plieur de rayons'),
+('Neo', 'Plieur de rayons')
+INSERT INTO listes (nom)
+VALUES
+('Mario'),
+('Dexter'),
+('Katniss')
+INSERT INTO listes (metier)
+VALUES
+(' Tisseur de mélodie'),
+(' Architecte de château en chocolat')
+
+1-
+SELECT *
+FROM listes
+WHERE nom   IS NOT NULL
+  AND nom   <> ''
+  AND metier IS NOT NULL
+  AND metier <> '';
+2- 
+SELECT nom, metier
+FROM listes;
+3-
+SELECT metier
+FROM listes
+WHERE metier IS NOT NULL
+
+EXO 5
+
+SELECT
+  c.nom           AS client,
+  m.marque        AS produit,
+  AVG(n.etoiles)  AS moyenne_etoiles,
+  COUNT(*)        AS nb_votes
+FROM notes n
+JOIN clients c    ON n.id_client   = c.id
+JOIN metriel m   ON n.id_materiel = m.id
+GROUP BY
+  c.nom,
+  m.marque
+ORDER BY
+  moyenne_etoiles DESC;
+
