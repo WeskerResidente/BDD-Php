@@ -1,0 +1,60 @@
+EXO 1
+
+INSERT INTO film (titre, duree, date_de_sortie)
+values 
+('The Gentlemen', 113, 2020),
+('Kuzco', 75, 2000),
+('Joker', 122, 2019),
+('Sweeney todd', 116, 2007),
+('Princesse mononoké 134', 113, 1997)
+
+DELETE FROM film
+WHERE date_de_sortie < 2010
+
+DELETE FROM film
+WHERE duree < 120
+
+EXO 2
+
+1-
+SELECT ville_nom, ville_surface
+FROM villes_france_free
+ORDER BY ville_surface ASC 
+limit 5
+
+2-
+SELECT ville_code_postal, ville_population_2010
+FROM villes_france_free
+ORDER BY ville_population_2010 DESC
+limit 15
+
+3-
+SELECT ville_code_postal, ville_nom
+FROM villes_france_free
+WHERE ville_nom LIKE 'P%'
+
+4-
+SELECT ville_departement, SUM(ville_population_2010), SUM(ville_population_1999), SUM(ville_population_2012)
+FROM villes_france_free
+GROUP BY ville_departement
+ORDER BY ville_departement
+
+
+5- 
+SELECT ville_departement, ville_population_1999
+FROM villes_france_free
+WHERE ville_population_1999 > 20000
+
+6-
+UPDATE `villes_france_free`
+SET ville_longitude_dms = REPLACE(ville_longitude_dms, '+', '*');
+SELECT ville_longitude_dms, ville_slug FROM `villes_france_free`;
+
+7-
+SELECT
+  departement_code,
+  REVERSE(departement_nom)
+FROM
+  departement
+WHERE
+  departement_code > 97;
