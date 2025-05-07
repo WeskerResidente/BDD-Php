@@ -1,0 +1,103 @@
+1-
+UPDATE trainer
+SET prenom = REPLACE(prenom, 'Matis', 'Gros Null');
+2-
+SELECT pokemon, puissance
+FROM pokemon
+3-
+(pour chaque trainer)
+UPDATE trainer
+SET ville_id = 2
+WHERE id = 2;
+
+SELECT
+ville,     
+prenom  AS Trainer
+FROM trainer
+LEFT JOIN ville
+  ON trainer.ville_id = ville.id
+WHERE trainer.age BETWEEN 18 AND 40
+AND ville.ville <> 'Alola'
+
+4 - 
+
+SELECT
+  pokemon.id                       pokemon_id,
+  pokemon.pokemon                  pokemon,
+  GROUP_CONCAT(
+    DISTINCT `type`.type 
+    ORDER BY `type`.type 
+    SEPARATOR ', '
+  )
+FROM pokemon
+JOIN pokemon_type
+  ON pokemon.id = pokemon_type.pokemon_id
+JOIN `type`
+  ON `type`.id = pokemon_type.type_id
+WHERE `type`.type = 'Fee'
+GROUP BY
+  pokemon.id,
+  pokemon.pokemon;
+
+5-
+
+INSERT INTO equipe (pokemon_id, trainer_id)
+VALUES 
+(1, 12),
+(1, 11);
+
+SELECT
+  trainer.prenom,
+  AVG(pokemon.puissance)
+FROM equipe
+JOIN pokemon
+  ON equipe.pokemon_id = pokemon.id
+JOIN trainer
+  ON equipe.trainer_id = trainer.id
+GROUP BY
+  trainer.prenom;
+
+6 - 
+
+SELECT
+  GROUP_CONCAT(
+    DISTINCT trainer.prenom
+    ORDER BY trainer.prenom
+    SEPARATOR ', '
+  ) AS dresseurs,
+  pokemon.pokemon pokemon,
+
+  GROUP_CONCAT(
+    DISTINCT type.type
+    ORDER BY type.type
+    SEPARATOR ', '
+  ) as types
+FROM pokemon
+LEFT JOIN equipe
+  ON pokemon.id = equipe.pokemon_id
+LEFT JOIN trainer
+  ON equipe.trainer_id = trainer.id
+LEFT JOIN pokemon_type
+  ON pokemon.id = pokemon_type.pokemon_id
+LEFT JOIN type
+  ON pokemon_type.type_id = type.id
+GROUP BY
+  pokemon.id,
+  pokemon.pokemon;
+
+7- 
+SELECT
+  trainer.prenom prenom,
+  SUM(pokemon.puissance) * 1.1 electrique
+FROM trainer
+JOIN equipe
+  ON trainer.id = equipe.trainer_id
+JOIN pokemon
+  ON pokemon.id = equipe.pokemon_id
+JOIN pokemon_type
+  ON pokemon.id = pokemon_type.pokemon_id
+JOIN `type`
+  ON `type`.id = pokemon_type.type_id
+WHERE `type`.type = 'electrique'
+GROUP BY
+  trainer.prenom;
